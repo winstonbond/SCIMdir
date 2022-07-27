@@ -1,0 +1,14 @@
+mixin userCard(user, colour)
+  .col-md-3
+    .card.mb-3.shadow-sm
+      .card-header.bg-secondary.text-light
+         .card-text #{user.name.honorificprefix} #{user.name.givenname} #{user.name.familyname}
+           button.btn.btn-sm.float-end(type='button' onclick=`{ callBack('op=delete&id=${user.id}') }`)
+             i(class="bi-x-circle text-light" style="font-size: 1rem")
+          
+      .card-body(style={ background:  colour })
+        .card-text #{user.emails[0].value} 
+        .card-text #{user.addresses[0].locality}
+        .card-text #{user.addresses[0].country}
+        .card-text.small.italic #{user.username}
+        //.card-text.small #{user.id}

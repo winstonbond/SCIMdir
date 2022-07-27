@@ -1,0 +1,10 @@
+mixin groupCard(group, colour)
+  .col-md-3
+    .card.mb-3.shadow-sm
+      .card-header.bg-secondary.text-light     
+        .card-text #{group.displayname}
+          
+      .card-body(style={ background:  colour })
+        each member in group.members
+            .card-text #{member.display}
+

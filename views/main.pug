@@ -1,0 +1,43 @@
+extends layout.pug
+
+include mixins/userCard
+include mixins/groupCard
+
+block content 
+    .container
+      ul#ui.nav.nav-tabs.mb-3(role='tablist')
+        li.nav-item(role='presentation')
+          a#users-tab.nav-link.active(data-bs-toggle='tab' href='#nav-users' role='tab' aria-controls='nav-users' aria-selected='true')
+            i(class="bi-person" style="font-size: 1rem; padding-right:10px")
+            | Users
+        li.nav-item(role='presentation')
+          a#groups-tab.nav-link(data-bs-toggle='tab' href='#nav-groups' role='tab' aria-controls='nav-groups' aria-selected='false')
+            i(class="bi-people" style="font-size: 1rem; padding-right:10px")
+            | Groups
+        li.nav-item(role='presentation')
+          a#settings-tab.nav-link(data-bs-toggle='tab' href='#nav-settings' role='tab' aria-controls='nav-settings' aria-selected='false')
+            i(class="bi-gear" style="font-size: 1rem; padding-right:10px")
+            | Settings
+
+    #nav-tab-content.tab-content
+       #nav-users.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='users-tab')
+         .album.py-5.bg-light
+            .container
+              .row
+                each user in users
+                  +userCard(user, pickColour(user.username)) 
+
+                .col-md-3
+                  button.btn.btn-sm(type='button' onclick=`{ callBack('op=randomuser') }`)
+                    i(class="bi-plus-circle" style="font-size: 2rem")
+
+       #nav-groups.tab-pane.fade(role='tabpanel' aria-labelledby='groups-tab')
+         .album.py-5.bg-light
+            .container
+              .row
+                each group in groups
+                  +groupCard(group, pickColour(group.displayname)) 
+ 
+       #nav-settings.tab-pane.fade(role='tabpanel' aria-labelledby='settings-tab')
+         .container
+           p SCIM Bearer Token: #{config.token}
