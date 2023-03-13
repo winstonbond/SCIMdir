@@ -36,7 +36,7 @@ block content
             .container
               .row
                 each group in groups
-                  +groupCard(group, pickColour(group.displayname)) 
+                  +groupCard(group, users, pickColour(group.displayname)) 
  
        #nav-settings.tab-pane.fade(role='tabpanel' aria-labelledby='settings-tab')
          .container

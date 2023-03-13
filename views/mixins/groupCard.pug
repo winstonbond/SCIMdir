@@ -1,4 +1,4 @@
-mixin groupCard(group, colour)
+mixin groupCard(group, allusers, colour)
   .col-md-3
     .card.mb-3.shadow-sm
       .card-header.bg-secondary.text-light     
@@ -6,5 +6,5 @@ mixin groupCard(group, colour)
           
       .card-body(style={ background:  colour })
         each member in group.members
-            .card-text #{member.display}
+            .card-text #{ nameFromId(member.value) }
 

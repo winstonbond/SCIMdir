@@ -215,6 +215,15 @@ function userExists(name) {
     return userlist.getAll().some((rec) => { return (rec.username == name) })
 }
 
+function nameFromId(id) {
+    for (let user of userlist.getAll()) {
+        if (user.id == id) {
+            return user.name.givenname + ' ' + user.name.familyname;
+        }
+    }
+    return ("Unknown user");
+}
+
 // create random new users
 async function createUsers(count=1) {
     // get some random user info
@@ -247,6 +256,7 @@ async function createUsers(count=1) {
                 'postalCode' : info.location.postcode.toString(),
                 'country'    : info.location.country
               }],
+            'groups' : []
         };
 
         addMetaData(newuser, 'User');
@@ -255,6 +265,8 @@ async function createUsers(count=1) {
         await userlist.add(newuser);
     }
 }
+
+
 
 // delete a user
 function deleteUser(id) {
@@ -296,11 +308,19 @@ function assignToGroups(user) {
             let group = findGroup(groupname);    
             let memberinfo = {
                 'value'   : user.id,
-                'display' : user.displayname,
+                //'display' : user.displayname,
                 'type'    : 'User',
                 '$ref'    : user.meta.location
             }    
             group.members.push(memberinfo);
+            
+            let groupinfo = {
+                'value'   : group.id,
+                'display' : group.displayname,
+                'type'    : 'direct',
+                '$ref'    : group.meta.location
+            }
+            user.groups.push(groupinfo);
         }
     }
 }
@@ -380,6 +400,9 @@ function initSCIM() {
 
         .egress((resource) => {
             let outp = grouplist.choose(resource.filter, resource.constraints);
+            if (outp.length != 0) {
+                console.log("Sent", JSON.stringify(outp));
+            }
             return outp;
         })
 
@@ -455,7 +478,8 @@ function initUI() {
             users:   userlist.getAll(), 
             groups:  grouplist.getAll(), 
             config:  config, 
-            pickColour: chooseColour 
+            pickColour: chooseColour, 
+            nameFromId: nameFromId 
         });
     });
 }
