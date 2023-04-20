@@ -45,7 +45,9 @@ const defaults = {
         'Musicians'   : 0.20, 
         'Dancers'     : 0.20, 
         'Readers'     : 0.20
-    }
+    },
+    
+    'multigroup' : true
 };   
 
 // structure for config info
@@ -309,27 +311,44 @@ function findGroup(name) {
     return group
 }
 
-function assignToGroups(user) {  
-    for (let [groupname, probability] of Object.entries(config.groups)) {
-        if (Math.random() < probability) {
-            let group = findGroup(groupname);    
-            let memberinfo = {
-                'value'   : user.id,
-                //'display' : user.displayname,
-                'type'    : 'User',
-                '$ref'    : user.meta.location
-            }    
-            group.members.push(memberinfo);
-            
-            let groupinfo = {
-                'value'   : group.id,
-                'display' : group.displayname,
-                'type'    : 'direct',
-                '$ref'    : group.meta.location
-            }
-            user.groups.push(groupinfo);
-        }
+function addUserToGroup(groupname, user) {
+    let group = findGroup(groupname);
+    
+    let memberinfo = {
+        'value'   : user.id,
+        //'display' : user.displayname,
+        'type'    : 'User',
+        '$ref'    : user.meta.location
+    }    
+    group.members.push(memberinfo);
+    
+    let groupinfo = {
+        'value'   : group.id,
+        'display' : group.displayname,
+        'type'    : 'direct',
+        '$ref'    : group.meta.location
     }
+    user.groups.push(groupinfo);    
+}
+
+function assignToGroups(user) {
+    if (config['multigroup']) {
+        for (let [groupname, probability] of Object.entries(config.groups)) {
+            if (Math.random() < probability) {
+                addUserToGroup(groupname, user);    
+            }
+        }
+    } else {
+        let counter = Math.random();
+        for (let [groupname, probability] of Object.entries(config.groups)) {
+            if (counter < probability) {
+                addUserToGroup(groupname, user);
+                user['title'] = groupname;
+                return                
+            }
+            counter -= probability;
+        }        
+    }   
 }
 
 //---------------------------------------------------------------------------
