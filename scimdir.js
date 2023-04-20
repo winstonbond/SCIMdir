@@ -31,6 +31,11 @@ const defaults = {
     'uilogo'   : 'logo.png',
     'uicolour' : 'black',
     
+    // which nationalities touse for people
+    'countries' : [
+        'AU','BR','CA','CH','DE','DK','ES','FI','FR','GB','IE','NL','NO','NZ','US'
+    ],
+    
     // the groups we randomly assign users to & their probabilities
     'groups' : {
         'Vegetarians' : 0.20, 
@@ -227,7 +232,9 @@ function nameFromId(id) {
 // create random new users
 async function createUsers(count=1) {
     // get some random user info
-    const query = await axios.get("https://randomuser.me/api/?nat=CH,DE,DK,ES,FI,FR,GB,IE,NO,NL,CA,US&noinfo&results=" + count);
+    const countries = config['countries'].join()
+    
+    const query = await axios.get("https://randomuser.me/api/?nat=" + countries + "&noinfo&results=" + count);
 
     // convert info to the SCIM User schema & add to the list of users
     for (let info of query.data.results) {
