@@ -47,6 +47,7 @@ const defaults = {
         'Readers'     : 0.20
     },
     
+    // do we assign people to multiple groups or just one?
     'multigroup' : true
 };   
 
@@ -78,6 +79,7 @@ function readConfig() {
         const newconfig = JSON.parse(fs.readFileSync(configfile));
 
         config = newconfig[0];
+        addDefaultSettings(config);
         userlist  = new IdentityList(newconfig[1]);
         grouplist = new IdentityList(newconfig[2]);
     } catch (e) {
@@ -90,14 +92,17 @@ function readConfig() {
         config = {
             token : bearer_token,
         };
+        addDefaultSettings(config);
         
         userlist  = new IdentityList([]);
         grouplist = new IdentityList([]);
 
         createUsers(3);
     }
-    
-    // use the defaults for anything that isn't defined
+}
+
+// use the defaults for anything that isn't defined
+function addDefaultSettings(config) {
     Object.keys(defaults).forEach((key) => {
         if (config[key] === undefined) {
             config[key] = defaults[key]

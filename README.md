@@ -74,6 +74,11 @@ The config info is in the first part of the file and these are the defaults.
     'uilogo'   : 'logo.png',
     'uicolour' : 'black',
     
+    // which nationalities to use for people
+    'countries' : [
+        'AU','BR','CA','CH','DE','DK','ES','FI','FR','GB','IE','NL','NO','NZ','US'
+    ],
+    
     // the groups we randomly assign users to & their probabilities
     'groups' : {
         'Vegetarians' : 0.20, 
@@ -84,6 +89,9 @@ The config info is in the first part of the file and these are the defaults.
         'Dancers'     : 0.20, 
         'Readers'     : 0.20
     }
+
+    // do we assign people to multiple groups or just one?
+    'multigroup' : true
 
 If you want to use a better password, change the details of the UI (handy if you are running multiple instances) or use more sensible group names then stop the app, customise the file and restart. 
 
