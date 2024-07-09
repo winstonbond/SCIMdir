@@ -6,12 +6,12 @@
   },
   "node": ">=16.0.0",
   "dependencies": {
-    "async-mutex": "^0.3.2",
-    "axios": "^0.27.2",
-    "bootstrap-icons": "^1.8.3",
-    "pug": "^3.0.2",
-    "scim2-parse-filter": "^0.2.4",
-    "scimmy-routers": "^0.10.0",
+    "async-mutex": "^0.5.0",
+    "axios": "^1.7.2",
+    "bootstrap-icons": "^1.11.3",
+    "pug": "^3.0.3",
+    "scim2-parse-filter": "^0.2.10",
+    "scimmy-routers": "^1.2.0",
     "serve-favicon": "^2.5.0"
   }
 }
